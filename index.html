@@ -6,64 +6,76 @@
     <title>코레이트 하이일드공모주만기형 4호</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
         
         body { 
             font-family: 'Noto Sans KR', sans-serif; 
-            background-color: #0f172a; /* 아주 어두운 네이비 배경 */
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
+            background-color: #0f172a;
+            overflow: hidden; /* 전체 스크롤바 숨김 */
         }
 
-        /* 모바일 앱처럼 중앙 정렬 컨테이너 */
-        .mobile-container {
-            max-width: 600px; /* 태블릿/PC에서도 모바일 핏 유지 */
-            margin: 0 auto;
-            background-color: #fff;
-            position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-        }
-
-        /* 이미지 공통 스타일 */
-        .img-block {
-            display: block;
-            width: 100%;
-            height: auto;
-            opacity: 0; /* 처음에 숨김 (애니메이션용) */
-        }
-
-        /* 1번 이미지 (히어로) 전용 효과 */
-        .hero-wrapper {
-            position: relative;
-            overflow: hidden;
+        /* 가로 스크롤 컨테이너 */
+        .horizontal-scroll-container {
+            display: flex;
+            overflow-x: auto; /* 가로 스크롤 허용 */
+            scroll-snap-type: x mandatory; /* 한 장씩 딱딱 걸리게 */
+            width: 100vw;
+            height: 100vh;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;  /* IE, Edge 스크롤바 숨김 */
+            scrollbar-width: none;  /* Firefox 스크롤바 숨김 */
         }
         
-        /* 1번 이미지 숨쉬는 효과 (Zoom In/Out) */
+        /* 크롬 등에서 스크롤바 숨김 */
+        .horizontal-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 각각의 이미지 섹션 */
+        .slide-section {
+            flex: 0 0 100vw; /* 화면 너비 100% 고정 */
+            height: 100vh;
+            scroll-snap-align: start; /* 시작점에 자석처럼 붙기 */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000; /* 빈 공간 검은색 */
+        }
+
+        /* 이미지 스타일 */
+        .slide-img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain; /* 비율 유지하며 화면에 맞춤 */
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* 1번 이미지 애니메이션 (숨쉬기 & 빛반사) */
         .hero-anim {
             animation: breathe 10s infinite alternate ease-in-out;
-            transform-origin: center center;
         }
         @keyframes breathe {
             0% { transform: scale(1.0); }
             100% { transform: scale(1.05); }
         }
-
-        /* 1번 이미지 위를 지나가는 빛 반사 효과 (Shimmer) */
+        
+        .shimmer-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        
         .shimmer {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, 
-                rgba(255,255,255,0) 0%, 
-                rgba(255,255,255,0.1) 50%, 
-                rgba(255,255,255,0) 100%);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
             transform: skewX(-20deg) translateX(-150%);
-            animation: shine 4s infinite 2s; /* 4초마다 반짝임 */
+            animation: shine 4s infinite 2s;
             pointer-events: none;
         }
         @keyframes shine {
@@ -71,77 +83,69 @@
             100% { transform: skewX(-20deg) translateX(150%); }
         }
 
-        /* 스크롤 유도 화살표 */
-        .scroll-down {
+        /* 오른쪽 화살표 안내 */
+        .next-arrow {
             position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.8);
-            animation: bounce 2s infinite;
-            z-index: 10;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            opacity: 0.7;
+            animation: pointRight 1.5s infinite;
+            z-index: 50;
+            pointer-events: none;
         }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
-            40% {transform: translateX(-50%) translateY(-10px);}
-            60% {transform: translateX(-50%) translateY(-5px);}
+        @keyframes pointRight {
+            0%, 100% { transform: translateY(-50%) translateX(0); }
+            50% { transform: translateY(-50%) translateX(10px); }
         }
-
-        /* 이미지 사이 틈 제거 */
-        img { vertical-align: bottom; }
     </style>
 </head>
 <body>
 
-    <div class="mobile-container">
+    <div class="horizontal-scroll-container" id="scrollContainer">
         
-        <div class="hero-wrapper">
-            <img src="./HYIPOIMG1.png" alt="메인 표지" class="img-block hero-anim" style="opacity: 1;">
-            
-            <div class="shimmer"></div>
-            
-            <div class="scroll-down">
-                <svg class="w-8 h-8 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7-7-7m14-8l-7 7-7-7"></path>
-                </svg>
+        <div class="slide-section">
+            <div class="shimmer-wrapper">
+                <img src="./HYIPOIMG1.png" class="slide-img hero-anim" alt="Page 1">
+                <div class="shimmer"></div>
+            </div>
+            <div class="next-arrow">
+                <svg class="w-10 h-10 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </div>
         </div>
 
-        <div class="reveal-fade-up">
-            <img src="./HYIPOIMG2.png" alt="투자 포인트" class="img-block">
+        <div class="slide-section">
+            <img src="./HYIPOIMG2.png" class="slide-img" alt="Page 2">
         </div>
 
-        <div class="reveal-slide-right">
-            <img src="./HYIPOIMG3.png" alt="운용 전략" class="img-block">
+        <div class="slide-section">
+            <img src="./HYIPOIMG3.png" class="slide-img" alt="Page 3">
         </div>
 
-        <div class="reveal-zoom">
-            <img src="./HYIPOIMG4.png" alt="펀드 개요" class="img-block">
+        <div class="slide-section">
+            <img src="./HYIPOIMG4.png" class="slide-img" alt="Page 4">
         </div>
 
-        <div class="reveal-fade">
-            <img src="./HYIPOIMG5.png" alt="유의사항" class="img-block">
+        <div class="slide-section">
+            <img src="./HYIPOIMG5.png" class="slide-img" alt="Page 5">
         </div>
-
-        <a href="tel:02-0000-0000" class="fixed bottom-6 right-6 z-50 bg-[#2D4D77] text-white rounded-full p-4 shadow-2xl hover:bg-[#1e3a5f] transition duration-300 flex items-center gap-2 animate-pulse">
-            <span class="font-bold">📞 상담문의</span>
-        </a>
 
     </div>
 
-    <script>
-        const sr = ScrollReveal({
-            distance: '60px',
-            duration: 1200,
-            delay: 100,
-            reset: false,
-            viewFactor: 0.15
-        });
+    <a href="tel:02-0000-0000" class="fixed bottom-6 right-6 z-50 bg-[#2D4D77] text-white rounded-full px-6 py-3 shadow-2xl hover:bg-[#1e3a5f] transition flex items-center gap-2">
+        <span class="font-bold">📞 상담문의</span>
+    </a>
 
-        sr.reveal('.reveal-fade-up .img-block', { origin: 'bottom', opacity: 0, interval: 200 });
-        sr.reveal('.reveal-slide-right .img-block', { origin: 'right', distance: '100px', opacity: 0, duration: 1400 });
-        sr.reveal('.reveal-zoom .img-block', { scale: 0.9, opacity: 0, duration: 1500 });
-        sr.reveal('.reveal-fade .img-block', { distance: '0px', opacity: 0, duration: 2000 });
+    <script>
+        // PC에서 마우스 휠을 굴리면 가로로 스크롤되게 하는 마법의 코드
+        const scrollContainer = document.getElementById("scrollContainer");
+
+        scrollContainer.addEventListener("wheel", (evt) => {
+            evt.preventDefault();
+            scrollContainer.scrollLeft += evt.deltaY;
+        });
     </script>
+
 </body>
 </html>
