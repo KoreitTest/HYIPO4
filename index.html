@@ -96,7 +96,9 @@
     <div class="mobile-container">
         
         <div class="hero-wrapper">
-            <img src="./HYIPOIMG1.jpg" alt="메인 표지" class="img-block hero-anim" style="opacity: 1;"> <div class="shimmer"></div>
+            <img src="./HYIPOIMG1.png" alt="메인 표지" class="img-block hero-anim" style="opacity: 1;">
+            
+            <div class="shimmer"></div>
             
             <div class="scroll-down">
                 <svg class="w-8 h-8 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,19 +108,19 @@
         </div>
 
         <div class="reveal-fade-up">
-            <img src="./HYIPOIMG2.jpg" alt="투자 포인트" class="img-block">
+            <img src="./HYIPOIMG2.png" alt="투자 포인트" class="img-block">
         </div>
 
         <div class="reveal-slide-right">
-            <img src="./HYIPOIMG3.jpg" alt="운용 전략" class="img-block">
+            <img src="./HYIPOIMG3.png" alt="운용 전략" class="img-block">
         </div>
 
         <div class="reveal-zoom">
-            <img src="./HYIPOIMG4.jpg" alt="펀드 개요" class="img-block">
+            <img src="./HYIPOIMG4.png" alt="펀드 개요" class="img-block">
         </div>
 
         <div class="reveal-fade">
-            <img src="./HYIPOIMG5.jpg" alt="유의사항" class="img-block">
+            <img src="./HYIPOIMG5.png" alt="유의사항" class="img-block">
         </div>
 
         <a href="tel:02-0000-0000" class="fixed bottom-6 right-6 z-50 bg-[#2D4D77] text-white rounded-full p-4 shadow-2xl hover:bg-[#1e3a5f] transition duration-300 flex items-center gap-2 animate-pulse">
@@ -128,45 +130,18 @@
     </div>
 
     <script>
-        // ScrollReveal 초기화
         const sr = ScrollReveal({
-            distance: '60px', // 움직이는 거리
-            duration: 1200,   // 애니메이션 시간 (부드럽게)
+            distance: '60px',
+            duration: 1200,
             delay: 100,
-            reset: false,      // 스크롤 올렸다 내리면 다시 실행할지 여부 (false 추천)
-            viewFactor: 0.15  // 이미지가 15% 보이면 애니메이션 시작
+            reset: false,
+            viewFactor: 0.15
         });
 
-        // 1번 이미지는 CSS 애니메이션이 있으므로 제외하고 2번부터 적용
-
-        // 2번 이미지: 아래에서 위로 부드럽게
-        sr.reveal('.reveal-fade-up .img-block', {
-            origin: 'bottom',
-            opacity: 0,
-            interval: 200
-        });
-
-        // 3번 이미지: 오른쪽에서 슬라이드 (역동감)
-        sr.reveal('.reveal-slide-right .img-block', {
-            origin: 'right',
-            distance: '100px',
-            opacity: 0,
-            duration: 1400
-        });
-
-        // 4번 이미지: 살짝 커지면서 등장 (강조)
-        sr.reveal('.reveal-zoom .img-block', {
-            scale: 0.9,
-            opacity: 0,
-            duration: 1500
-        });
-
-        // 5번 이미지: 제자리에서 페이드인
-        sr.reveal('.reveal-fade .img-block', {
-            distance: '0px',
-            opacity: 0,
-            duration: 2000
-        });
+        sr.reveal('.reveal-fade-up .img-block', { origin: 'bottom', opacity: 0, interval: 200 });
+        sr.reveal('.reveal-slide-right .img-block', { origin: 'right', distance: '100px', opacity: 0, duration: 1400 });
+        sr.reveal('.reveal-zoom .img-block', { scale: 0.9, opacity: 0, duration: 1500 });
+        sr.reveal('.reveal-fade .img-block', { distance: '0px', opacity: 0, duration: 2000 });
     </script>
 </body>
 </html>
